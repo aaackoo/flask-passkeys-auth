@@ -1,4 +1,4 @@
-# Passkeys demo app by Adam Šupej
+# flask-passkeys-auth app by Adam Šupej
 
 My app is a Flask-based web application that implements **passkeys authentication** using **FIDO2 WebAuthn**. It demonstrates registration and authentication flow using passkeys, storing user credentials in a PostgreSQL database. Each user has some kind of secret message which he would like to store somewhere so no one could see it :). Here you can do so!
 
@@ -12,7 +12,7 @@ My app is a Flask-based web application that implements **passkeys authenticatio
 
 ---
 ## Deployment
-This app has been deployed to a domain `supej.me` which is being hosted on an ARM hetzner cloud server. Server hosts it’s own postgreSQL database.
+The app used to run on my own domain (supej.me), on an ARM Hetzner cloud server with its own PostgreSQL database. That deployment is no longer live.
 
 ## Routes
 
