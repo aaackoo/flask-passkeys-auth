@@ -327,7 +327,8 @@ def logged_in_check():
 # -----------------------------------------------------
 if __name__ == "__main__":
     print("Starting Flask app...")
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     app.run(
         host="127.0.0.1",
         port=5000,
