@@ -6,12 +6,21 @@ My app is a Flask-based web application that implements **passkeys authenticatio
 
 ## Table of Contents
 - [Deployment](#deployment)
+- [Running locally](#running-locally)
 - [Routes](#routes)
 - [Usage](#usage)
 
 ---
 ## Deployment
 The app used to run on my own domain (supej.me), on an ARM Hetzner cloud server with its own PostgreSQL database. That deployment is no longer live.
+
+## Running locally
+1. Create a PostgreSQL database and run `python init_db.py`.
+2. Set the environment variables: `APP_SECRET_KEY`, `DB_URI`, `DB_HOST`, `DB_NAME`,
+   `DB_USER`, `DB_PASSWORD` and `RP_ID` (use `localhost` for local runs).
+3. Start the app with `python app.py` and open it on `localhost`.
+
+Passkeys are bound to a domain (the Relying Party ID), so `RP_ID` must match the host you open the app on. Browsers allow WebAuthn on `localhost` without HTTPS; any other domain needs HTTPS.
 
 ## Routes
 
