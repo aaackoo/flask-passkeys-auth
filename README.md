@@ -15,11 +15,14 @@ My app is a Flask-based web application that implements **passkeys authenticatio
 The app used to run on my own domain (supej.me), on an ARM Hetzner cloud server with its own PostgreSQL database. That deployment is no longer live.
 
 ## Running locally
-1. Copy `.env.example` to `.env` and fill in the environment variables: `APP_SECRET_KEY`, `DB_URI`, `DB_HOST`, `DB_NAME`,
+Tested with Python 3.13.9 and the versions pinned in `requirements.txt`.
+
+1. Create a virtual environment with Python 3.13 and run `pip install -r requirements.txt`.
+2. Copy `.env.example` to `.env` and fill in the environment variables: `APP_SECRET_KEY`, `DB_URI`, `DB_HOST`, `DB_NAME`,
    `DB_USER`, `DB_PASSWORD`, `RP_ID` (use `localhost` for local runs) and `RP_NAME`.
    `DB_URI` must use the `postgresql+psycopg2://` scheme, for example `postgresql+psycopg2://passkeys:change-me@localhost:5432/passkeys`.
-2. Create a PostgreSQL database and run `python init_db.py`.
-3. Start the app with `python app.py` and open `http://localhost:5000`, not `http://127.0.0.1:5000`. WebAuthn does not accept an IP address as the RP ID, and the fido2 library only allows plain `http` on `localhost`.
+3. Create a PostgreSQL database and run `python init_db.py`.
+4. Start the app with `python app.py` and open `http://localhost:5000`, not `http://127.0.0.1:5000`. WebAuthn does not accept an IP address as the RP ID, and the fido2 library only allows plain `http` on `localhost`.
 
 Passkeys are bound to a domain (the Relying Party ID), so `RP_ID` must match the host you open the app on. Browsers allow WebAuthn on `localhost` without HTTPS; any other domain needs HTTPS.
 
