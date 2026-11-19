@@ -81,6 +81,25 @@ def set_credentials(username, credential_data):
     cur.close()
     conn.close()
 
+def get_user_handle(username):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT user_handle FROM users WHERE username = %s', (username,))
+    result = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    return bytes(result[0])
+
+def set_my_string(username, my_string):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('UPDATE users SET my_string = %s WHERE username = %s',
+                (my_string, username))
+    conn.commit()
+    cur.close()
+    conn.close()
+
 def user_exists(username):
     conn = get_db_connection()
     cur = conn.cursor()
@@ -155,11 +174,16 @@ def register_begin():
     my_string = data.get("my_string")
 
     if user_exists(username):
-        return jsonify({"status": "failed", "reason": "User already exists"}), 401
+        if get_credentials(username) is not None:
+            return jsonify({"status": "failed", "reason": "User already exists"}), 401
 
-    # WebAuthn user handle: random, unique per user, no personal information
-    user_handle = os.urandom(32)
-    insert_user(username, my_string, user_handle)
+        # Registration was started but never completed: let the user retry
+        user_handle = get_user_handle(username)
+        set_my_string(username, my_string)
+    else:
+        # WebAuthn user handle: random, unique per user, no personal information
+        user_handle = os.urandom(32)
+        insert_user(username, my_string, user_handle)
 
     try:
         registration_data, state = fido2_server.register_begin(
