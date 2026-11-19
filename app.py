@@ -62,12 +62,12 @@ def execute_cmd(cmd):
     cur.close()
     conn.close()
 
-def insert_user(username, my_string):
+def insert_user(username, my_string, user_handle):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('INSERT INTO users (username, my_string, credentials)'
-                'VALUES (%s, %s, %s)',
-                (username, my_string, None))
+    cur.execute('INSERT INTO users (username, my_string, credentials, user_handle)'
+                'VALUES (%s, %s, %s, %s)',
+                (username, my_string, None, psycopg2.Binary(user_handle)))
     conn.commit()
     cur.close()
     conn.close()
@@ -157,12 +157,14 @@ def register_begin():
     if user_exists(username):
         return jsonify({"status": "failed", "reason": "User already exists"}), 401
 
-    insert_user(username, my_string)
+    # WebAuthn user handle: random, unique per user, no personal information
+    user_handle = os.urandom(32)
+    insert_user(username, my_string, user_handle)
 
     try:
         registration_data, state = fido2_server.register_begin(
             PublicKeyCredentialUserEntity(
-                id=b"user_id",
+                id=user_handle,
                 name=username,
                 display_name=username,
             ),

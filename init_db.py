@@ -18,6 +18,7 @@ cur.execute('CREATE TABLE users (id SERIAL NOT NULL,'
                                 'username VARCHAR(80) NOT NULL,'
                                 'my_string VARCHAR(255) NOT NULL,'
                                 'credentials BYTEA,'
+                                'user_handle BYTEA UNIQUE NOT NULL,'
                                 'PRIMARY KEY (id),'
                                 'UNIQUE (username));'
         )
