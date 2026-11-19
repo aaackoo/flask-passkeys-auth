@@ -37,9 +37,8 @@ db = SQLAlchemy(app)
 # -----------------------------------------------------
 # Relaying Party (RP) configuration
 # -----------------------------------------------------
-# RP_ID = "dev.local"  # DEBUG
-RP_ID = "supej.me"  # DEPLOY
-RP_NAME = "Passkeys Demo"
+RP_ID = os.getenv("RP_ID", "localhost")
+RP_NAME = os.getenv("RP_NAME", "Passkeys Demo")
 rp = PublicKeyCredentialRpEntity(name=RP_NAME, id=RP_ID)
 
 # -----------------------------------------------------
