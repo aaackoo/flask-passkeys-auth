@@ -26,6 +26,8 @@ Tested with Python 3.13.9 and the versions pinned in `requirements.txt`.
 
 Passkeys are bound to a domain (the Relying Party ID), so `RP_ID` must match the host you open the app on. Browsers allow WebAuthn on `localhost` without HTTPS; any other domain needs HTTPS.
 
+On macOS, AirPlay Receiver also listens on port 5000 and answers `http://localhost:5000` with a 403. Turn it off in System Settings > General > AirDrop & Handoff before starting the app.
+
 ## Routes
 
 ### 1. HTML Views
